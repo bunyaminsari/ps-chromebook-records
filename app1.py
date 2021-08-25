@@ -1,6 +1,8 @@
 # frontend of the app 
 from tkinter import *
-import app1_backend
+from app1_backend import Database
+
+db = Database("chromebooks.db")
 
 def selected_row(event):
     try:
@@ -36,18 +38,18 @@ def selected_row(event):
 # connecting the backend functions
 def view_all():
     student_list.delete(0,END)
-    for row in app1_backend.view():
+    for row in db.view():
         student_list.insert(END,row)
 
 def search_record():
     student_list.delete(0,END)
-    for row in app1_backend.search(en_date.get(),en_sname.get(),en_grade.get(),en_class.get(),en_pname.get(),en_psign.get(),en_cin.get(),en_ccn.get()):
+    for row in db.search(en_date.get(),en_sname.get(),en_grade.get(),en_class.get(),en_pname.get(),en_psign.get(),en_cin.get(),en_ccn.get()):
         student_list.insert(END,row)
         
 def add_record():
     try:
         if en_sname.get():
-            app1_backend.insert(en_date.get(),en_sname.get(),en_grade.get(),en_class.get(),en_pname.get(),en_psign.get(),en_cin.get(),en_ccn.get())
+            db.insert(en_date.get(),en_sname.get(),en_grade.get(),en_class.get(),en_pname.get(),en_psign.get(),en_cin.get(),en_ccn.get())
             student_list.delete(0,END)
             student_list.insert(END,(en_date.get(),en_sname.get(),en_grade.get(),en_class.get(),en_pname.get(),en_psign.get(),en_cin.get(),en_ccn.get()))
             e1.delete(0,END)
@@ -62,7 +64,7 @@ def add_record():
         print("tcl Error")
 
 def delete_record():
-    app1_backend.delete(selected_content[0])
+    db.delete(selected_content[0])
     e1.delete(0,END)
     e2.delete(0,END)
     e3.delete(0,END)
@@ -76,7 +78,7 @@ def delete_record():
 
 
 def update_record():
-    app1_backend.update(selected_content[0],en_date.get(),en_sname.get(),en_grade.get(),en_class.get(),en_pname.get(),en_psign.get(),en_cin.get(),en_ccn.get())
+    db.update(selected_content[0],en_date.get(),en_sname.get(),en_grade.get(),en_class.get(),en_pname.get(),en_psign.get(),en_cin.get(),en_ccn.get())
     view_all()
 
 def new_record():
@@ -138,7 +140,7 @@ lb_cin.grid(row=6,column=2,sticky="e")
 lb_ccn = Label(window,text="CCN:")
 lb_ccn.grid(row=7,column=2,sticky="e")
 
-# # Entries
+# Entries
 
 en_date = StringVar()
 e1 = Entry(window,textvariable= en_date)
@@ -187,14 +189,14 @@ b3.grid(row=9,column=0,columnspan=2,sticky="e",padx=10,pady=6)
 b4 = Button(window,text="Update", width=23,height=2,command=update_record)
 b4.grid(row=9,column=2,columnspan=2,sticky="w",padx=10,pady=6)
 
-b4 = Button(window,text="Delete", width=23,height=2,command=delete_record)
-b4.grid(row=10,column=0,columnspan=2,sticky="e",padx=10,pady=6)
+b5 = Button(window,text="Delete", width=23,height=2,command=delete_record)
+b5.grid(row=10,column=0,columnspan=2,sticky="e",padx=10,pady=6)
 
-b4 = Button(window,text="Close", width=23,height=2,command=window.destroy)
-b4.grid(row=11,column=0,columnspan=2,sticky=E,padx=10,pady=6)
+b6 = Button(window,text="Close", width=23,height=2,command=window.destroy)
+b6.grid(row=11,column=0,columnspan=2,sticky=E,padx=10,pady=6)
 
-b5 = Button(window,text="Clear", width=23,height=2,command=new_record)
-b5.grid(row=10,column=2,columnspan=2,sticky="w",padx=10,pady=6)
+b7 = Button(window,text="Clear", width=23,height=2,command=new_record)
+b7.grid(row=10,column=2,columnspan=2,sticky="w",padx=10,pady=6)
 
 
 # Listbox and scrollbar 
